@@ -141,3 +141,87 @@ x-ui v2-ui
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/vaxilu/x-ui.svg)](https://starchart.cc/vaxilu/x-ui)
+
+#===================================================================
+#===================================================================
+
+Sebelum melakukan installer v2ray di vps, kalian harus punya domain yang sudah terhubung ke cloudflare (sebagai cdn) syarat lain yang harus kalian penuhi adalah, vps belum terinstall apapun (fresh vps)
+
+#1. Remote IP VPS
+Silahkan remote dan login ke akun vps kalian menggunakan putty, juice, termius atau semacamnya
+
+#2. Lakukan update dan Upgrade
+Biar script auto installer v2ray berjalan lancar, sebaiknya lakukan update dan upgrade terlebih dahulu. Untuk printahnya kalian bisa gunakan dibawah ini
+
+sudo apt update && apt upgrade -y
+script auto installer v2ray
+Proses update dan upgrade vps linux
+Tunggu proses update dan upgrade vps linux sampai selesai.
+
+#3. Install Curl
+Gunakan printah dibawah ini untuk melakukan instalasi curl, ini berfungsi untuk melakukan command pada protokol http atau https
+
+sudo apt install curl -y
+#4. Install V2ray Dengan Panel X-UI
+Untuk script auto installer v2ray silahkan gunakan perintah dibawah ini, selain script dibawah ini kalian juga bisa mencari script auto installer di forum github yang bebas kalian gunakan secara gratis
+
+bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
+Saat proses instalasi berlangsung, kalian tinggal jalankan perintah yes saja jika ada permintaan
+
+Hubungkan Domain Ke Cloudflare
+Untuk menghubungkan domain ke cloudflare saya rasa kalian sudah bisa melakukannya, akan tetapi ada sebagian kecil dari kalian yang mungkin belum paham sama sekali.
+
+Jadi, saya akan tetap buatkan tutorialnya, bagaimana cara menghubungkan domain ke cloudflare menggunakan ip vps yang kita punya.
+
+#1. Login Cloudflare
+Silahkan login menggunakan akun yang kalian punya, jika belum silahkan lakukan pendaftaran akun cloudflare terlebih dahulu.
+
+#2. Hubungkan Domain
+Untuk menghubungkan domain ke cloudflare, kalian hanya cukup tombol “addsite” dan masukan nama domain kalian
+
+menghubungkan domain ke cloudflare
+#3. Pilih Plan
+Disini kalian bisa menggunakan layanan cloudflare secara gratis ataupun berbayar, jika cuma ingin mencoba kalian pilih saja layanan yang gratis kemudian pilih “continue”
+
+#4. Ubah Nameserver
+selanjutnya kalian diminta untuk melakukan perubahan nameserver menggunakan nameserver cloudflare, kalian cukup copy nameserver dari cloudflare dan pastekan ke control domain kalian.
+
+ubah nameserver cloudflare
+Setelah kalian melakukan perubahan nameserver, selanjutnya kalian hanya menunggu 24 jam agar domain bener-benar terhubung.
+
+#5. Add Record DNS
+Ini adalah bagian paling penting, kita akan melakukan penambahan DNS pada domain yang sudah terhubung ke cloudflare menggunakan ip vps yang kita punya, untuk langkah-langkahnya: Masuk ke Menu DNS > Add Record DNS
+
+add record dns cloud flare
+Untuk melakukan Penambahan DNS d cloudflare kalian bisa perhatikan gambar dibawah ini
+
+tambah dns record cloudflare
+Keterangan:
+
+Type: Pilih A Record
+Name: Buat nama terserah kalian, ini akan menjadi subdomain
+Address: Masukan IP VPS yang kalian punya
+Proxy: Hilangkan Centang Orange yang bertulisan proxied, agar menjadi warna abu dengan tulisan DNS Only
+Save: Tekan tombol save untuk menyimpan dns record cloudflare yang kita buat
+Install Certificate
+Langkah Terakhir kita harus melakukan install Certificate, tujuannya agar subdomain yang kita buat di cloudflare tadi bisa menggunakan https, ini berfungsi juga saat kita membuat akun di panel v2ray x-ui.
+
+Untuk melakukan Install Certificate, gunakan perintah dibawah ini
+
+apt install software-properties-common -y
+Selanjutnya kita install certbot menggunakan perintah dibawah ini
+
+apt install certbot -y
+Langkah berikutnya buat sertifikat menggukan perintah berikut
+
+certbot certonly --standalone --preferred-challenges http --agree-tos --email email@calonbos.net -d sg-vpn.calonbos.net
+Silahkan ganti tulisan yang berwarna orange dengan email dan domain sebelum di eksekusi pada terminal, jika ada keterangan yang entah apa artinya, pokoknya ada dua pilihan yes/no, kalian pilih no saja dan enter.
+
+…jangan lupa untuk copas sertifikat yang didapatkan, ini berguna saat kita membuat akun v2ray kedepannya.
+
+Login WebUi V2ray (Panel X-UI)
+Untuk melakukan login ke panel v2ray kalian cuku masukin ip vps di ikuti dengan port v2ray 54321, contohnya seperti ini
+
+http://130.120.55.8:54321, selain itu kalian juga bisa login menggunakan subdomain yang sudah dibuat tadi di cloudflare dan diikuti dengan port v2ray. contoh, sg-vpn.calonbos.net:54321
+
+Untuk user dan password panel v2ray menggunakan admin
